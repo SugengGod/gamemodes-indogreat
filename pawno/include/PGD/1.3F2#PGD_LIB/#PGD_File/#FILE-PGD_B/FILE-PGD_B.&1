@@ -1,0 +1,25 @@
+/*
+*
+*	-= PGD BASE =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+
+stock pgd_CriarArquivo(nome_arquivo[])
+{
+	if(fexist(nome_arquivo)) return 0;
+	new File:arquivo;
+	arquivo = fopen(nome_arquivo, io_write);
+	fclose(arquivo);
+	return 1;
+}
+
+stock pgd_ApagarArquivo(nome_arquivo[])
+{
+	if(!pgd_ArquivoExiste(nome_arquivo)) return 0;
+	fremove(nome_arquivo);
+	return 1;
+}
+
+stock pgd_ArquivoExiste(nome_arquivo[]) return fexist(nome_arquivo);

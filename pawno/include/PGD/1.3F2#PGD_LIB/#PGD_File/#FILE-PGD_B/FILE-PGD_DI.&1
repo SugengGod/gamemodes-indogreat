@@ -1,0 +1,12 @@
+/*
+*
+*	-= PGD BASE =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+
+#define MAX_PGD_CHAR MAX_CHAVE_CHAR + MAX_VALOR_CHAR + 8
+#define MAX_PGD_EF_CHAR MAX_CHAVE_CHAR + 4
+#define PGD_FCPi format(str, MAX_PGD_EF_CHAR, "%c%s%c%s", 96, c, 96, p)
+#define pgd_CarregarStr pgd_CarregarChave

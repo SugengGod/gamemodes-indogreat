@@ -1,0 +1,23 @@
+/*
+*
+*	-= PGD FORMULAÇÃO =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+
+stock pgd_SQLCarregarDados(dbnome[], tabela[], coluna[], where[])
+{
+	new
+		query[MAX_PGD_SQLITE_GERAL],
+		DBResult:resultado,
+		DB:dbex;
+	dbex = db_open(dbnome);
+	format(query,sizeof(query),"SELECT %s FROM %s WHERE %s", coluna, tabela, where);
+	resultado = db_query(dbex, query);
+	if(db_num_rows(resultado)) db_get_field(resultado, 0, query, sizeof(query));
+ 	else query[0] = 0;
+	db_free_result(resultado);
+    FECHAR_DATABASE_E;
+	return query;
+}

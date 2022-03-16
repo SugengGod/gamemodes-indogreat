@@ -1,0 +1,24 @@
+/*
+*
+*	-= PGD BASE =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+
+#define FECHAR_DATABASE_C; new DB:dbex = db_open(dbnome); \
+	db_close(dbex);
+
+#define FECHAR_DATABASE_E; db_close(dbex);
+#define pgd_SQLDatabaseExiste pgd_ArquivoExiste
+
+#define _PGD_SQLINSERIRSTR; \
+	{new str[MAX_PGD_SQLITE_GERAL]; format(str, sizeof(str), "'%s'", dados);	return pgd_SQLInserirDados(dbnome, tabela_nome, coluna, str);}
+
+#define pgd_SQLEscreverStr pgd_SQLEscreverDados
+
+stock pgd_SQLValorExiste(dbnome[], tabela[], coluna[], where[])
+{
+	if(!pgd_SQLDatabaseExiste(dbnome)) return 0;
+	return (strlen(pgd_SQLCarregarDados(dbnome, tabela, coluna, where)) > 0) ? 1 : 0;
+}

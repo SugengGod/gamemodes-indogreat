@@ -1,0 +1,93 @@
+/*
+*
+*	-= PGD FORMULAÇÃO =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+
+stock pgd_EscreverChave(arquivo[], chave[], strc[], prefixo[2] = ":")
+{
+	if(!strlen(arquivo))
+	{
+		print("[PGD]: Impossivel prosseguir escrita! O nome do arquivo esta vazio!");
+		return 0;
+	}
+	else if(!strlen(chave))
+	{
+		print("[PGD]: Impossivel prosseguir escrita! O nome da chave esta vazia!");
+		return 0;
+	}
+	else if(!strlen(prefixo))
+	{
+		print("[PGD]: Impossivel prosseguir escrita! O prefixo esta vazio!");
+		return 0;
+	}
+	else if(strlen(chave) > MAX_CHAVE_CHAR)
+	{
+		printf("[PGD]: Escrever - chave '%s' excedeu o limite de caracteres definido (MAX %d)!", chave, MAX_CHAVE_CHAR);
+		return 0;
+	}
+	else if(strlen(strc) > MAX_VALOR_CHAR)
+	{
+		printf("[PGD]: Escrever - valor '%s' excedeu o limite de caracteres definido (MAX %d)!", strc, MAX_VALOR_CHAR);
+		return 0;
+	}
+	if(!pgd_ArquivoExiste(arquivo)) pgd_CriarArquivo(arquivo);
+	new
+		str[MAX_PGD_CHAR],
+		strbusca[MAX_PGD_CHAR],
+		strlinha[MAX_PGD_CHAR],
+		File:ArqM,
+		linhas;
+
+	pgd_FormatarCP(strbusca, chave, prefixo);
+	ArqM = fopen(arquivo, io_read);
+	while(fread(ArqM, str, sizeof(str), false))
+	{
+		linhas++;
+	    if(pgd_VerificarLinha(str, strbusca))
+		{
+			fclose(ArqM);
+		    format(strlinha, sizeof(strlinha), "%s", str);
+			format(str, sizeof(str),"%s%s\r\n", strbusca, strc);
+			if(!strcmp(strlinha, str, false, strlen(str))) return 1;
+			pgd_MudarValor(arquivo, linhas, str);
+			return 1;
+		}
+	}
+	fclose(ArqM);
+	format(str, sizeof(str),"%s%s\r\n", strbusca, strc);
+	ArqM = fopen(arquivo, io_append);
+	fwrite(ArqM, str);
+	fclose(ArqM);
+	return 1;
+}
+
+stock pgd_EscreverArquivo(arquivo[], linha[], bool:comparar_igual = false)
+{
+	new
+		File:ArqM,
+		linhaf[MAX_PGD_LINHA_CHAR];
+	if(strlen(linha) > MAX_PGD_LINHA_CHAR) psf_CopiarStrL(linhaf, linha, 0, MAX_PGD_LINHA_CHAR);
+	else psf_CopiarStrL(linhaf, linha, 0, strlen(linha));
+	if(!pgd_ArquivoExiste(arquivo)) pgd_CriarArquivo(arquivo);
+	if(comparar_igual)
+	{
+	    new
+         	str[MAX_PGD_LINHA_CHAR],
+			bool:verificado;
+
+		ArqM = fopen(arquivo, io_read);
+		while(fread(ArqM, str, sizeof(str), false))
+		{
+		    if(!strfind(str, linhaf, false) && (str[strlen(str) - 1] == '\r' || str[strlen(str) - 1] == '\n')) verificado = true;
+		}
+		fclose(ArqM);
+		if(verificado) return 0;
+	}
+	ArqM = fopen(arquivo, io_append);
+	fwrite(ArqM, linhaf);
+	fclose(ArqM);
+	return 1;
+}

@@ -1,0 +1,27 @@
+// no topo do seu gamemode coloque isso:
+
+#include <Y_Objects>
+
+// no OnGameModeInit coloque isso:
+
+	Object_Object();//NÃO TIRE
+
+//converta seu mapa para Y_Object e coloque o código de baixo do "Object_Object();". Exemplo:
+
+public OnGameModeInit()
+{
+	Object_Object();//NÃO TIRE
+CreateDynamicObject(3279,1110.158,-1458.830,14.522,0.0,0.0,0.0);
+
+// no OnPlayerDisconect coloque:
+
+Object_OnPlayerDisconnect(playerid, reason);
+
+
+Pronto, divirta-se!
+
+OBS: Pode dar um pouco de crash(nada que atrapalhe muito!) e se não fizer direitinho muitos objetos poderão não aparecer! Qualquer dúvida poste um comentário perguntando.
+
+
+Tutorial feito por: Cr0Nos
+Acesse: http://www.cronosbr.blogspot.com

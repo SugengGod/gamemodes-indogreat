@@ -1,0 +1,426 @@
+ Protioso Gerenciamento de Dados (PGD) 1.3F2, por [VGS]Protioso_OC
+
+
+ AVISO: PGD necessita do include PSF (Protioso String Funções) para ser utilizado!
+ 	Versão necessária: indicada 1.2F2 ou qualquer acima de 1.2.
+
+
+	Introdução
+
+ Está difícil para ler dados à partir de um arquivo? Não perca tempo use PGD!
+ PGD é uma ferramenta para uso diário, que pode ler dados a partir de uma chave localizada em um arquivo comum, por método FILE, ou também pode realizar leitura
+a partir de um database em SQLite, lendo valores localizados em colunas dentro de tabelas, seguindo a especificação WHERE. 
+ Seu uso é simples e rápido, e não requer muita experiência. Suas funções são auto explicativas e foram cuidadosamente formuladas, o que lhe permite mais agilidade, segurança e um melhor entendimento.
+
+
+-------------------------------------------------------------------------------------------|
+	Dicionário rápido PGD:
+		
+  File: "Arquivo puro"... o que é derivado das funções do include file.	
+
+  SQLite: É uma biblioteca em C que implementa um banco de dados SQL.
+	
+  CHAVE: Local onde é determinado que o valor será salvo em um arquivo.
+  Ex.:
+       Chave01:5 - : "Chave01" é a chave em que o valor "5" está salvo, em certo arquivo.
+
+  PREFIXOS: Prefixo é o caractere que antecede o valor da chave.
+  Ex.:
+      `Chave01`:5 - : é o prefixo da chave "Chave01"
+    	  
+  DATABASE: É um banco de dados.
+
+-------------------------------------------------------------------------------------------|
+
+	Explicando funções
+
+
+		FUNÇÕES File
+
+-   pgd_CriarArquivo(nome_arquivo[])
+
+ Cria um novo arquivo.
+ nome_arquivo: Nome do arquivo à ser criado.
+ Retorna: 1 se não existir e for criado e a 0 caso contrário.
+
+
+-   pgd_ApagarArquivo(nome_arquivo[])
+
+ Apaga um arquivo existente.
+ nome_arquivo: Nome do arquivo à ser apagado.
+ Retorna: 1 se existir e for apagado e a 0 caso contrário.
+
+
+-   pgd_ArquivoExiste(nome_arquivo[])
+
+ Checa se um arquivo existente.
+ nome_arquivo: Nome do arquivo à ser checado.
+ Retorna: 1 se existir e a 0 caso contrário.
+
+
+-   pgd_RenomearArquivo(nome_antigo[], novo_nome[])
+
+ Renomeia um arquivo.
+ nome_antigo: Nome do arquivo a ser renomeado;
+ novo_nome: Novo nome que o arquivo receberá.
+ Retorna: 1 se for concluído e 0 se o arquivo antigo não existir ou se o novo já existir.
+
+-   pgd_CarregarStr(arquivo[], chave[], prefixo[2])
+
+ Carrega um texto/string de determinada chave de um arquivo.
+ arquivo: Nome do arquivo à ser examinado;
+ chave: Chave a ter o valor carregado;
+ prefixo: Prefixo que antecede o valor da chave.
+ Retorna: Ao valor em string da chave, se a mesma existir.
+
+
+-   pgd_CarregarInt(arquivo[], chave[], prefixo[2])
+
+ Carrega um valor inteiro (integer) de determinada chave de um arquivo.
+ arquivo: Nome do arquivo à ser examinado;
+ chave: Chave a ter o valor carregado;
+ prefixo: Prefixo que antecede o valor da chave.
+ Retorna: Ao valor em integer da chave, se a mesma existir.
+
+
+-   pgd_CarregarBool(arquivo[], chave[], prefixo[2])
+
+ Carrega um valor booleano (bool) de determinada chave de um arquivo.
+ arquivo: Nome do arquivo à ser examinado;
+ chave: Chave a ter o valor carregado;
+ prefixo: Prefixo que antecede o valor da chave.
+ Retorna: Ao valor em bool da chave, se a mesma existir.
+ 
+
+-   pgd_CarregarFloat(arquivo[], chave[], prefixo[2])
+
+ Carrega um valor de ponto flutuante (float) de determinada chave de um arquivo.
+ arquivo: Nome do arquivo à ser examinado;
+ chave: Chave a ter o valor carregado;
+ prefixo: Prefixo que antecede o valor da chave.
+ Retorna: Ao valor em float da chave, se a mesma existir.
+ 
+
+-    pgd_EscreverStr(arquivo[], chave[], prefixo[2], valor[])
+
+ Escreve um texto/string em determinada chave de um arquivo.
+ arquivo: Nome do arquivo à ser escrito;
+ chave: Chave a ter o valor colocado;
+ prefixo: Prefixo que antecede o valor da chave;
+ valor: Valor, em formato string, à ser escrito.
+ Retorna: Retornará a 1 se os parâmetros não forem vazios, e 0 caso contrário.
+
+
+-    pgd_EscreverInt(arquivo[], chave[], prefixo[2], valor)
+
+ Escreve um valor inteiro (integer) em determinada chave de um arquivo.
+ arquivo: Nome do arquivo à ser escrito;
+ chave: Chave a ter o valor colocado;
+ prefixo: Prefixo que antecede o valor da chave;
+ valor: Valor, em formato inteiro, à ser escrito.
+ Retorna: Retornará a 1 se os parâmetros não forem vazios, e 0 caso contrário.
+
+
+-    pgd_EscreverFloat(arquivo[], chave[], prefixo[2], Float:valor)
+
+ Escreve um valor de ponto flutuante (float) em determinada chave de um arquivo.
+ arquivo: Nome do arquivo à ser escrito;
+ chave: Chave a ter o valor colocado;
+ prefixo: Prefixo que antecede o valor da chave;
+ valor: Valor, em formato de ponto flutuante, à ser escrito.
+ Retorna: Retornará a 1 se os parâmetros não forem vazios, e 0 caso contrário.
+
+
+-    pgd_EscreverBool(arquivo[], chave[], prefixo[2], bool:valor)
+
+ Escreve um valor booleano (bool) em determinada chave de um arquivo.
+ arquivo: Nome do arquivo à ser escrito;
+ chave: Chave a ter o valor colocado;
+ prefixo: Prefixo que antecede o valor da chave;
+ valor: Valor, em formato booleano, à ser escrito.
+ Retorna: Retornará a 1 se os parâmetros não forem vazios, e 0 caso contrário.
+
+
+-    pgd_EscreverArquivo(arquivo[], linha[], bool:comparar_igual)
+
+ Escreve um texto/string em determinado arquivo.
+ arquivo: Nome do arquivo à ser escrito;
+ linha: O que você quer escrever no arquivo, valor string;
+ comparar_igual: Coloque TRUE para checar se já existe uma linha com o mesmo valor e FALSE para escrever mesmo se uma linha igual já existir.
+ Retorna: Retorna a 1, se a escrita for bem sucedida, e a 0 se "comparar_igual" estiver ativo e encontrar uma linha igual.
+ 
+ 
+ -   pgd_MudarValor(arquivo[], linha, c_linha_nova[])
+ 
+  Muda o valor de determinada linha do arquivo.
+  arquivo: Arquivo à ser examinado;
+  linha: Linha à ser modificada;
+  c_linha_nova: Novo conteúdo para ser escrito na linha.
+  Retorna: A 1 se a função for executada com sucesso, e a 0 se o arquivo não existir.
+  
+  
+ -   pgd_ApagarChave(arquivo[], chave[], prefixo[2])
+ 
+ Apaga determinada chave de um arquivo.
+ chave: Chave que irá ser apagada;
+ prefixo: Prefixo correspondente a chave.
+ Retorna: A 1 se a função for executada com sucesso, e a 0 se o arquivo não existir.
+ 
+ 
+-   pgd_ApagarLinha(arquivo[], linha)
+
+ Apaga determinada linha de um arquivo.
+ arquivo: Arquivo que se encontra a linha desejada;
+ linha: Número da linha à ser apagada.
+ Retorna: A 1 se a função for executada com sucesso, e a 0 se o arquivo não existir.
+ 
+ 
+-   pgd_ChaveExiste(arquivo[], chave[], prefixo[2])
+
+ Checa se determinada chave existe em um arquivo.
+ arquivo: Arquivo à ser examinado;
+ chave: Nome da chave à ser pesquisada;
+ prefixo: Prefixo correspondente a chave.
+ Retorna: A 1 se a chave existir, e a 0 se a chave não existir ou se o arquivo não existir.
+ 
+ 
+-   pgd_CopiarDados(arquivo_principal[], arquivo_destino[], bool:ad_a)
+
+ Copia todos os dados de um arquivo para outro.
+ arquivo_principal: Arquivo que terá seus dados lidos e copiados;
+ arquivo_destino: Arquivo que receberá os dados copiados;
+ ad_a: Adicionar dados sem apagar os já existentes - TRUE para sim e FALSE para apagá-los.
+ Retorna: A 1 se a função for executada com sucesso, e a 0 se o arquivo principal não existir.
+
+
+-   pgd_EscreverLinha(arquivo[], linha, cont[MAX_PGD_LINHA_CHAR])
+
+ Escreve em determinada linha de um arquivo.
+ arquivo: Nome do arquivo a ser escrito;
+ linha: Número da linha em que será salvo o valor;
+ cont: Conteúdo a ser escrito, em formato de texto/string.
+ Retorna: A 1 se for escrito e a 0 caso contrário.
+
+
+-   pgd_ProcurarLinha(arquivo[], busca[MAX_PGD_LINHA_CHAR], bool:comparar = false)
+
+ Procura a linha que se encontra tal texto/string em determinado arquivo.
+ arquivo: Nome do arquivo a ser verificado;
+ busca: Texto/string a ser buscado;
+ comparar: Use true para usar a função strcmp para buscar ou false para usar a função strfind.
+ Retorna: A um número superior a 0 se a tal texto/string for achado.
+
+
+-   pgd_StrExiste(arquivo[], busca[MAX_PGD_LINHA_CHAR], bool:comparar = false)
+
+ Faz uma busca e verifica se tal texto/string existe em determinado arquivo.
+ arquivo: Nome do arquivo a ser verificado;
+ busca: Texto/string a ser buscado;
+ comparar: Use true para usar a função strcmp para buscar ou false para usar a função strfind.
+ Retorna: A 1 se for achado e 0 caso contrário.
+
+
+
+
+		FUNÇÕES SQLite
+
+
+-   pgd_SQLCriarDatabase(dbnome[])
+
+ Cria um novo database (banco de dados).
+ dbnome: Nome do database a ser criado.
+ Retorna: A 1 se for criado e a 0 se já existir.
+
+
+-   pgd_SQLApagarDatabase(dbnome[])
+
+ Apaga um database existente.
+ dbnome: Nome do database a ser apagado.
+ Retorna: A 1 se existir e for apagado, e a 0 caso o mesmo não exita.
+
+
+-   pgd_SQLDatabaseExiste(dbnome[])
+
+ Checa se um database existe.
+ dbnome: Nome do database checado.
+ Retorna: A 1 se existir e a 0 caso contrário.
+
+
+-   pgd_SQLCriarTabela(dbnome[], tabela_nome[], coluna[])
+
+ Cria uma tabela em um database.
+ dbnome: Nome do database a ser manipulado;
+ tabela_nome: Nome da tabela a ser criada;
+ coluna: Coluna(s) a ser(em) criada(as).
+ Retorna: Sempre retornará a 1.
+
+
+-   pgd_SQLLimparTabela(dbnome[], tabela_nome[])
+
+ Limpa uma tabela, apagando seus dados principais.
+ dbnome: Nome do database a ser manipulado;
+ tabela_nome: Tabela contida no database a ser limpa.
+ Retorna: a 1 se o database existir, e a 0 caso contrário.
+
+
+-   pgd_SQLInserirLivre(dbnome[], tabela_nome[], coluna_str[], dados[])
+
+ Insere "livre", ou seja, pode-se adicionar mais colunas ao contrário do padrão do PGD, criado para 2 colunas ("chave" e "valor"), simplesmente, para uso rápido.
+ dbnome: Nome do database a ser inserido;
+ tabela_nome: Nome da tabela a ter os valores inseridos;
+ coluna_str: String referente a(s) coluna(s) da respectiva tabela;
+ dados: Dados a serem inseridos na(s) coluna(s).
+ Retorna: Retornará a 1 se o database existir e a 0 caso contrário.
+
+
+-   pgd_SQLInserirStr(dbnome[], tabela_nome[], coluna[], dados[])
+
+ Insere dados em formato de texto/string em um banco de dados, usando padrão facilitador PGD ("chave" e "valor", ou seja, duas colunas apenas).
+ dbnome: Nome do database a ter os dados inseridos;
+ tabela_nome: Nome da tabela;
+ coluna: Nome da coluna da respectiva tabela;
+ dados: Dados a serem escritos.
+ Retorna: Retornará a 1 se o database existir e a 0 caso contrário.
+
+
+-   pgd_SQLInserirInt(dbnome[], tabela_nome[], coluna[], dados)
+
+ Insere dados em formato de valor inteiro (integer) em um banco de dados, usando padrão facilitador PGD ("chave" e "valor", ou seja, duas colunas apenas).
+ dbnome: Nome do database a ter os dados inseridos;
+ tabela_nome: Nome da tabela;
+ coluna: Nome da coluna da respectiva tabela;
+ dados: Dados a serem escritos.
+ Retorna: Retornará a 1 se o database existir e a 0 caso contrário.
+
+
+-  pgd_SQLInserirFloat(dbnome[], tabela_nome[], coluna[], Float:dados)
+
+ Insere dados em formato de ponto flutuante (float) em um banco de dados, usando padrão facilitador PGD ("chave" e "valor", ou seja, duas colunas apenas).
+ dbnome: Nome do database a ter os dados inseridos;
+ tabela_nome: Nome da tabela;
+ coluna: Nome da coluna da respectiva tabela;
+ dados: Dados a serem escritos.
+ Retorna: Retornará a 1 se o database existir e a 0 caso contrário.
+
+
+-   pgd_SQLInserirBool(dbnome[], tabela_nome[], coluna[], bool:dados)
+
+ Insere dados em formato de valor booleano (bool) em um banco de dados, usando padrão facilitador PGD ("chave" e "valor", ou seja, duas colunas apenas).
+ dbnome: Nome do database a ter os dados inseridos;
+ tabela_nome: Nome da tabela;
+ coluna: Nome da coluna da respectiva tabela;
+ dados: Dados a serem escritos.
+ Retorna: Retornará a 1 se o database existir e a 0 caso contrário.
+
+
+-   pgd_SQLEscreverStr(dbnome[], tabela_nome[], coluna[], where[], dados[])
+
+ Escreve um texto/string em determinada tabela e respectiva coluna de um database.
+ dbnome: Nome do database a ser escrito;
+ tabela_nome: Nome da tabela a ser escrita;
+ coluna: Nome da coluna da respectiva tabela;
+ where: Cláusula where (especificador);
+ dados: Dados a serem escritos.
+ Retorna: Retornará a 1 se o database existir e a 0 caso contrário.
+
+
+-   pgd_SQLEscreverInt(dbnome[], tabela_nome[], coluna[], where[], dados)
+
+ Escreve um valor inteiro (integer) em determinada tabela e respectiva coluna de um database.
+ dbnome: Nome do database a ser escrito;
+ tabela_nome: Nome da tabela a ser escrita;
+ coluna: Nome da coluna da respectiva tabela;
+ where: Cláusula where (especificador);
+ dados: Dados a serem escritos.
+ Retorna: Retornará a 1 se o database existir e a 0 caso contrário.
+
+
+-   pgd_SQLEscreverFloat(dbnome[], tabela_nome[], coluna[], where[], Float:dados)
+
+
+ Escreve um valor de ponto flutuante (float) em determinada tabela e respectiva coluna de um database.
+ dbnome: Nome do database a ser escrito;
+ tabela_nome: Nome da tabela a ser escrita;
+ coluna: Nome da coluna da respectiva tabela;
+ where: Cláusula where (especificador);
+ dados: Dados a serem escritos.
+ Retorna: Retornará a 1 se o database existir e a 0 caso contrário.
+
+
+-   pgd_SQLEscreverBool(dbnome[], tabela_nome[], coluna[], where[], bool:dados)
+
+ Escreve um valor booleano (bool) em determinada tabela e respectiva coluna de um database.
+ dbnome: Nome do database a ser escrito;
+ tabela_nome: Nome da tabela a ser escrita;
+ coluna: Nome da coluna da respectiva tabela;
+ where: Cláusula where (especificador);
+ dados: Dados a serem escritos.
+ Retorna: Retornará a 1 se o database existir e a 0 caso contrário.
+
+
+-   pgd_SQLCarregarStr(dbnome[], tabela[], coluna[], where[])
+
+ Carrega um texto/string de determinada tabela e sua respectiva coluna de um database.
+ dbnome: Nome do database a ter o valor carregado;
+ tabela_nome: Nome da tabela a ser lida;
+ coluna: Nome da coluna da respectiva tabela;
+ where: Cláusula where (especificador).
+ Retorna: Ao valor em string, especificado, da coluna localizada em determinada tabela, se o database existir.
+
+
+-   pgd_SQLCarregarInt(dbnome[], tabela[], coluna[], where[])
+
+ Carrega um valor inteiro (integer) de determinada tabela e sua respectiva coluna de um database.
+ dbnome: Nome do database a ter o valor carregado;
+ tabela_nome: Nome da tabela a ser lida;
+ coluna: Nome da coluna da respectiva tabela;
+ where: Cláusula where (especificador).
+ Retorna: Ao valor em integer, especificado, da coluna localizada em determinada tabela, se o database existir.
+
+
+-   pgd_SQLCarregarBool(dbnome[], tabela[], coluna[], where[])
+
+ Carrega um valor booleano (bool) de determinada tabela e sua respectiva coluna de um database.
+ dbnome: Nome do database a ter o valor carregado;
+ tabela_nome: Nome da tabela a ser lida;
+ coluna: Nome da coluna da respectiva tabela;
+ where: Cláusula where (especificador).
+ Retorna: Ao valor em bool, especificado, da coluna localizada em determinada tabela, se o database existir.
+
+
+-   pgd_SQLCarregarFloat(dbnome[], tabela[], coluna[], where[])
+
+ Carrega um valor flutuante (float) de determinada tabela e sua respectiva coluna de um database.
+ dbnome: Nome do database a ter o valor carregado;
+ tabela_nome: Nome da tabela a ser lida;
+ coluna: Nome da coluna da respectiva tabela;
+ where: Cláusula where (especificador).
+ Retorna: Ao valor em float, especificado, da coluna localizada em determinada tabela, se o database existir.
+
+
+-   pgd_SQLValorExiste(dbnome[], tabela[], coluna[], where[])
+
+ Checa se existe valor em determinada coluna presente em sua respectiva tabela.
+ dbnome: Nome do database a ser checado;
+ tabela_nome: Nome da tabela a ser lida;
+ coluna: Nome da coluna da respectiva tabela;
+ where: Cláusula where (especificador).
+ Retorna: A 1 se existir e a 0 caso contrário.
+
+
+-   pgd_SQLVerificarColuna(dbnome[], tabela_nome[], where[])
+ 
+ Verifica uma coluna, analisando se há algo em determinada especificação (where).
+ dbnome: Nome do database a ser checado;
+ tabela_nome: Nome da tabela a ser lida;
+ where: Cláusula where (especificador).
+ Retorna: A 1 se for verificada com sucesso e a 0 caso contrário. 
+
+
+-   pgd_SQLApagarDados(dbnome[], tabela[], where[])
+
+ Apaga dados de determinada tabela.
+ dbnome: Nome do database a ser checado;
+ tabela: Nome da tabela a ser lida;
+ where: Cláusula where (especificador) da informação a ser apagada.
+ Retorna: A 1 se o database existir e a 0 caso contrário. 

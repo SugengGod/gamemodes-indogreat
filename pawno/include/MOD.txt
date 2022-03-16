@@ -1,0 +1,8 @@
+	writelog("\n--------------------------------------------------------");
+	writelog(" MPA RevolutioN RPG versão 0.2 RC2 carregado!");
+ 	writelog(" UMA PARCERIA ENTRE:                 ");
+ 	writelog("          Texugo        Vancy         ");
+ 	writelog("  Matraka        Smurf              ");
+	writelog("--------------------------------------------------------\n");
+
+

@@ -1,0 +1,49 @@
+/*
+*
+*	-= PGD FORMULAÇÃO =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+
+stock pgd_SQLInserirDados(dbnome[], tabela_nome[], coluna[], dados[])
+{
+	if(!pgd_SQLDatabaseExiste(dbnome)) return 0;
+	new
+		DB:dbex = db_open(dbnome),
+		query[MAX_PGD_SQLITE_GERAL];
+	format(query, sizeof(query), "INSERT INTO %s VALUES (%s, %s)", tabela_nome, coluna, dados);
+    db_query(dbex, query);
+    FECHAR_DATABASE_E;
+    return 1;
+}
+
+stock pgd_SQLInserirLivre(dbnome[], tabela_nome[], coluna_str[], dados[])
+{
+	if(!pgd_SQLDatabaseExiste(dbnome)) return 0;
+	new
+		DB:dbex = db_open(dbnome),
+		query[MAX_PGD_SQLITE_QUERY_LIVRE];
+	format(query, sizeof(query), "INSERT INTO %s (%s) VALUES (%s)", tabela_nome, coluna_str, dados);
+    db_query(dbex, query);
+    FECHAR_DATABASE_E;
+    return 1;
+}
+
+stock pgd_SQLEscreverDados(dbnome[], tabela_nome[], coluna[], where[], dados[])
+{
+	if(!pgd_SQLDatabaseExiste(dbnome)) return 0;
+	new
+		DB:dbex = db_open(dbnome),
+		query[MAX_PGD_SQLITE_GERAL];
+	if(psf_ParteExiste(dados, "'"))
+	{
+		new fdados[MAX_PGD_SQLITE_GERAL];
+		fdados = psf_SubstituirChar(dados, "'", "`", true);
+		psf_CopiarStr(dados, fdados);
+	}
+	format(query, sizeof(query), "UPDATE %s SET %s = '%s' WHERE %s", tabela_nome, coluna, dados, where);
+    db_query(dbex, query);
+    FECHAR_DATABASE_E;
+    return 1;
+}

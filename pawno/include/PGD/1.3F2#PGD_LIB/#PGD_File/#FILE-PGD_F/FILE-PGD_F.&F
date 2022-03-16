@@ -1,0 +1,109 @@
+/*
+*
+*	-= PGD FORMULAÇÃO =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+
+stock pgd_FormatarCP(str[], c[], p[2]) PGD_FCPi;
+
+stock pgd_MudarValor(arquivo[], linha, c_linha_nova[MAX_PGD_CHAR])
+{
+	if(pgd_ArquivoExiste(arquivo))
+	{
+		new
+			str[MAX_PGD_CHAR],
+			File:ArqM,
+			File:ArqT,
+			linhas;
+
+		format(str, sizeof(str), "%s.PGD_T", arquivo);
+		if(!pgd_ArquivoExiste(str)) pgd_CriarArquivo(str);
+		else
+		{
+			pgd_ApagarArquivo(str);
+			pgd_CriarArquivo(str);
+		}
+		ArqM = fopen(arquivo, io_read);
+		ArqT = fopen(str, io_append);
+		while(fread(ArqM, str, sizeof(str), false))
+		{
+			linhas++;
+		    if(linhas == linha)	fwrite(ArqT, c_linha_nova);
+		    else fwrite(ArqT, str);
+		}
+		fclose(ArqM);
+		fclose(ArqT);
+		format(str, sizeof(str), "%s.PGD_T", arquivo);
+		pgd_CopiarDados(str, arquivo);
+		pgd_ApagarArquivo(str);
+		return 1;
+	}
+	return 0;
+}
+
+stock pgd_ApagarChave(arquivo[], chave[MAX_CHAVE_CHAR], prefixo[2] = ":")
+{
+	if(pgd_ArquivoExiste(arquivo))
+	{
+		new
+			str[MAX_PGD_CHAR],
+			strbusca[MAX_PGD_CHAR],
+			File:ArqT,
+			File:ArqM;
+
+		format(str, sizeof(str), "%s.PGD_T", arquivo);
+		if(!pgd_ArquivoExiste(str)) pgd_CriarArquivo(str);
+		else
+		{
+			pgd_ApagarArquivo(str);
+			pgd_CriarArquivo(str);
+		}
+		ArqT = fopen(str, io_append);
+		pgd_FormatarCP(strbusca, chave, prefixo);
+		ArqM = fopen(arquivo, io_read);
+		while(fread(ArqM, str, sizeof(str), false)) if(pgd_ChavesDiferentes(str, strbusca)) fwrite(ArqT, str);
+		fclose(ArqM);
+		fclose(ArqT);
+		format(str, sizeof(str), "%s.PGD_T", arquivo);
+		pgd_CopiarDados(str, arquivo);
+		pgd_ApagarArquivo(str);
+		return 1;
+	}
+	return 0;
+}
+
+stock pgd_ApagarLinha(arquivo[], linha)
+{
+	if(pgd_ArquivoExiste(arquivo))
+	{
+		new
+			str[MAX_PGD_LINHA_CHAR],
+			File:ArqM,
+			File:ArqT,
+			linhas;
+
+		format(str, sizeof(str), "%s.PGD_T", arquivo);
+		if(!pgd_ArquivoExiste(str)) pgd_CriarArquivo(str);
+		else
+		{
+			pgd_ApagarArquivo(str);
+			pgd_CriarArquivo(str);
+		}
+		ArqM = fopen(arquivo, io_read);
+		ArqT = fopen(str, io_append);
+		while(fread(ArqM, str, sizeof(str), false))
+		{
+			linhas++;
+		    if(linhas != linha)	fwrite(ArqT, str);
+		}
+		fclose(ArqM);
+		fclose(ArqT);
+		format(str, sizeof(str), "%s.PGD_T", arquivo);
+		pgd_CopiarDados(str, arquivo);
+		pgd_ApagarArquivo(str);
+		return 1;
+	}
+	return 0;
+}

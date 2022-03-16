@@ -1,0 +1,56 @@
+/*
+*
+*	-= PGD FORMULAÇÃO =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+
+stock pgd_CarregarChave(arquivo[], chave[], prefixo[2] = ":")
+{
+	new valorchave[MAX_VALOR_CHAR];
+	if(!strlen(arquivo))
+	{
+		print("[PGD]: Impossivel prosseguir leitura! O nome do arquivo esta vazio!");
+		goto PGD_LFIM;
+	}
+	else if(!strlen(chave))
+	{
+		print("[PGD]: Impossivel prosseguir leitura! O nome da chave esta vazia!");
+		goto PGD_LFIM;
+	}
+	else if(!strlen(prefixo))
+	{
+		print("[PGD]: Impossivel prosseguir leitura! O prefixo esta vazio!");
+		goto PGD_LFIM;
+	}
+	else if(strlen(chave) > MAX_CHAVE_CHAR)
+	{
+		printf("[PGD]: Carregar - chave '%s' excedeu o limite de caracteres (MAX %d)!", MAX_CHAVE_CHAR);
+		goto PGD_LFIM;
+	}
+	if(pgd_ArquivoExiste(arquivo))
+	{
+		new
+			str[MAX_PGD_CHAR],
+			strbusca[MAX_PGD_CHAR],
+			File:ArqM;
+
+		pgd_FormatarCP(strbusca, chave, prefixo);
+		ArqM = fopen(arquivo, io_read);
+		while(fread(ArqM, str, sizeof(str), false))
+		{
+		    if(pgd_VerificarLinha(str, strbusca))
+			{
+				fclose(ArqM);
+				format(valorchave, sizeof(valorchave), "%s", str[strlen(strbusca)]);
+				if(strlen(valorchave) > 0) pgd_FormatarValor(valorchave);
+				return valorchave;
+			}
+		}
+		fclose(ArqM);
+	}
+	else printf("[PGD]: Impossivel prosseguir leitura! O arquivo '%s' nao existe!", arquivo);
+	PGD_LFIM:
+	return valorchave;
+}

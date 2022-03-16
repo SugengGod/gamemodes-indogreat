@@ -1,0 +1,25 @@
+/*
+*
+*	-= PGD BASE =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+#define pgd_SQLDatabaseExiste pgd_ArquivoExiste
+#define pgd_SQLCarregarStr	pgd_SQLCarregarDados
+
+stock pgd_SQLCriarDatabase(dbnome[])
+{
+	if(pgd_SQLDatabaseExiste(dbnome)) return 0;
+	new DB:novo_db = db_open(dbnome);
+	db_close(novo_db);
+	return 1;
+}
+
+stock pgd_SQLApagarDatabase(dbnome[])
+{
+	if(!pgd_SQLDatabaseExiste(dbnome)) return 0;
+ 	FECHAR_DATABASE_C;
+	pgd_ApagarArquivo(dbnome);
+	return 1;
+}

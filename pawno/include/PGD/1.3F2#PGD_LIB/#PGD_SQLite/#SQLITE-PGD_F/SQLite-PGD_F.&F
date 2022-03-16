@@ -1,0 +1,60 @@
+/*
+*
+*	-= PGD FORMULAÇÃO =-
+*	Protioso Gerenciamento de Dados
+*	Autor: Protioso ([VGS]Protioso_OC)
+*
+*/
+
+stock pgd_SQLLimparTabela(dbnome[], tabela_nome[])
+{
+	if(!pgd_ArquivoExiste(dbnome)) return 0;
+	new DB:dbex = db_open(dbnome);
+	new query[MAX_PGD_SQLITE_GERAL];
+	format(query, sizeof(query), "DROP TABLE IF EXISTS %s", tabela_nome);
+    db_query(dbex, query);
+    FECHAR_DATABASE_E;
+    return 1;
+}
+
+stock pgd_SQLCriarTabela(dbnome[], tabela_nome[], coluna[])
+{
+	if(!pgd_ArquivoExiste(dbnome)) pgd_SQLCriarDatabase(dbnome);
+	new DB:dbex = db_open(dbnome);
+	new query[MAX_PGD_SQLITE_GERAL];
+	format(query, sizeof(query), "CREATE TABLE IF NOT EXISTS %s (%s)", tabela_nome, coluna);
+    db_query(dbex, query);
+    FECHAR_DATABASE_E;
+    return 1;
+}
+
+stock pgd_SQLVerificarColuna(dbnome[], tabela_nome[], where[])
+{
+	new
+		query[MAX_PGD_SQLITE_GERAL],
+		DBResult:resultado,
+		DB:dbex;
+	dbex = db_open(dbnome);
+	format(query, sizeof(query), "SELECT * FROM %s WHERE %s", tabela_nome, where);
+	resultado = db_query(dbex, query);
+	if(db_num_rows(resultado)) db_get_field(resultado, 0, query, sizeof(query));
+ 	else query[0] = 0;
+	db_free_result(resultado);
+    FECHAR_DATABASE_E;
+	format(query, sizeof(query), "%d", query);
+	if(!strval(query)) return 0;
+	return 1;
+}
+
+stock pgd_SQLApagarDados(dbnome[], tabela[], where[])
+{
+	if(!pgd_SQLDatabaseExiste(dbnome)) return 0;
+	new
+		query[MAX_PGD_SQLITE_GERAL],
+		DB:dbex;
+	dbex = db_open(dbnome);
+	format(query, sizeof(query), "DELETE FROM %s WHERE %s", tabela, where);
+    db_query(dbex, query);
+    FECHAR_DATABASE_E;
+	return 1;
+}
