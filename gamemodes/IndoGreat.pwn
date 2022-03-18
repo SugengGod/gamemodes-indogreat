@@ -67,10 +67,10 @@
 #define LIGHTRED     		"{FF6347}"
 
 
-#define MYSQL_HOSTNAME  "	"
-#define MYSQL_DATABASE  "	"
-#define MYSQL_USERNAME  "	"
-#define MYSQL_PASSWORD  "	"
+#define MYSQL_HOSTNAME  "localhost"
+#define MYSQL_DATABASE  "indogreat"
+#define MYSQL_USERNAME  "root"
+#define MYSQL_PASSWORD  ""
 
 #define SERVER_MUSIC_URL ""SERVER_URL"/music"
 #define SERVER_FETCH_URL ""SERVER_URL"/music"
@@ -25211,7 +25211,7 @@ public OnGameModeInit()
 	CreateDynamicObject(957, 1808.30493, 790.84229, 15.96940,   0.00000, 90.00000, 90.00000);
 
 	// Texture //
-	new bsa = CreateDynamicObjectEx(4238, 1797.1707, 797.2317, 22.4085, 0.0000, 0.0000, 30.2910);
+	new bsa = CreateDynamicObject(4238, 1797.1707, 797.2317, 22.4085, 0.0000, 0.0000, 30.2910);
 	SetObjectMaterialText(bsa, "LS - LV", 0, 140, "Arial Black", 65, 1, -16777216, 0, 1);
 	new nagranicu = CreateDynamicObject(18981, 1796.92712, 806.85156, -1.49230,   -1.50000, 0.00000, 358.60599);
 	SetDynamicObjectMaterial(nagranicu, 0, 8399, "vgs_shops", "vgsclubwall05_128", 0xFFD9D9D9);
@@ -60162,11 +60162,11 @@ CMD:chopvehicle(playerid, params[]) {
 		}
 	}
 
-	if(count < 4)
+	/*if(count < 4)
 	{
 	    return SCM(playerid, COLOR_GREY2, "Setidaknya harus ada 4+ Aparat yang on duty untuk merampok bisnis.");
 	}
-	/*new count;
+	new count;
 	foreach(new i : Player)
 	{
 	    if(IsLawEnforcement(i))
@@ -60178,11 +60178,11 @@ CMD:chopvehicle(playerid, params[]) {
 	if(count < 4)
 	{
 	    return SCM(playerid, COLOR_SYNTAX, "There needs to be at least 4+ Leo's online in order to chop this vehicle.");
-	}*/
+	}
 	if(!VehicleInfo[vehid][vOwnerID])
 	{
 	    return SCM(playerid, COLOR_SYNTAX, "Kendaraan ini tidak dimiliki oleh orang tertentu.");
-	}
+	}*/
 	// If player isn't in a car (driver or passenger), abort.
 	if(!IsPlayerInAnyVehicle(playerid)) {
 		SendClientMessageEx(playerid, COLOR_GREY, "Kamu harus berada di dalam mobil untuk menjualnya.");
